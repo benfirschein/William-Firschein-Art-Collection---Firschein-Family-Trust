@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>William Firschein Collection – Firschein Family Trust</title>
+<style>
+  :root {
+    --bg:#0b0c10; --text:#e9eef6; --muted:#a8b3c7; --accent:#7aa2ff;
+    --border:rgba(255,255,255,.10); --shadow:0 12px 40px rgba(0,0,0,.45); --radius:16px;
+    --good: rgba(160,255,213,.95); --warn: rgba(255,216,122,.95);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    background:radial-gradient(1200px 800px at 20% -10%, rgba(122,162,255,.18), transparent 60%),
+               radial-gradient(900px 600px at 90% 10%, rgba(160,255,213,.10), transparent 55%),
+               var(--bg); color:var(--text)}
+  header{position:sticky;top:0;z-index:10;backdrop-filter:blur(10px);
+    background:linear-gradient(to bottom, rgba(11,12,16,.90), rgba(11,12,16,.65));
+    border-bottom:1px solid var(--border)}
+  .wrap{max-width:1200px;margin:0 auto;padding:16px 18px}
+  .title{display:flex;gap:12px;align-items:baseline;flex-wrap:wrap}
+  h1{margin:0;font-size:20px;letter-spacing:.2px}
+  .subtitle{color:var(--muted);font-size:13px}
+  .controls{margin-top:12px;display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center}
+  input[type="search"]{width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);
+    background:rgba(255,255,255,.04);color:var(--text);outline:none}
+  input[type="search"]::placeholder{color:rgba(168,179,199,.75)}
+  .toggle{padding:10px 12px;border-radius:12px;border:1px solid var(--border);
+    background:rgba(255,255,255,.04);color:var(--text);cursor:pointer;user-select:none;font-size:13px}
+  .toggle:hover{border-color:rgba(122,162,255,.45)}
+  .toggle.active{border-color:rgba(122,162,255,.70);box-shadow:0 0 0 2px rgba(122,162,255,.12) inset}
+  main .wrap{padding-top:18px;padding-bottom:40px}
+  .summaryBar{display:flex;justify-content:space-between;align-items:center;color:var(--muted);
+    font-size:13px;margin:8px 0 14px;gap:12px;flex-wrap:wrap}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(380px,1fr));gap:14px}
+  .card{border:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+    border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+  .cardTop{padding:12px 12px 10px;display:flex;justify-content:space-between;align-items:center;gap:10px;
+    border-bottom:1px solid var(--border)}
+        .body{padding:12px}
+  .boxSummary{margin-top:6px;color:rgba(233,238,246,.92);font-size:13px;line-height:1.45}
+  .thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:12px}
+  .thumb{border-radius:12px;overflow:hidden;border:1px solid var(--border);background:rgba(255,255,255,.03);
+    aspect-ratio:1/1;display:grid;place-items:center;position:relative}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .thumb .fallback{color:var(--muted);font-size:12px;padding:10px;text-align:center}
+  .thumb button{position:absolute;right:6px;bottom:6px;border:1px solid var(--border);
+    background:rgba(0,0,0,.45);color:var(--text);border-radius:10px;padding:6px 8px;font-size:12px;cursor:pointer}
+
+  .lightbox{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;
+    padding:18px;z-index:50}
+  .lightbox.open{display:flex}
+  .lbPanel{width:min(1100px,100%);background:rgba(18,20,27,.92);border:1px solid var(--border);border-radius:18px;
+    box-shadow:var(--shadow);overflow:hidden}
+  .lbTop{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--border)}
+  .lbTop .meta{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .lbTop .meta .t{font-weight:800;font-size:14px}
+  .lbTop .meta .s{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:900px}
+  .lbTop .actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .lbTop .actions a,.lbTop .actions button{font-size:12px;padding:8px 10px;border-radius:12px;border:1px solid var(--border);
+    background:rgba(255,255,255,.04);color:var(--text);text-decoration:none;cursor:pointer}
+  .lbBody{background:rgba(0,0,0,.25);display:grid;place-items:center;padding:10px}
+  .lbBody img{max-width:100%;max-height:calc(100vh - 170px);border-radius:12px;border:1px solid rgba(255,255,255,.12);
+    background:rgba(255,255,255,.02)}
+  footer{color:rgba(168,179,199,.75);font-size:12px;padding-top:12px}
+  @media (max-width:820px){.controls{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="title">
+      <h1>William Firschein Collection – Firschein Family Trust</h1>
+      <div class="subtitle">Sorted by box number. Each box has a short narrative summary (box description + overall condition).</div>
+    </div>
+    <div class="controls">
+      <input id="q" type="search" placeholder="Search… (e.g., “woodblocks”, “foxing”, “portfolio”, “box 17”)"/>
+</div>
+    <div class="summaryBar" id="summary"></div>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+    <div class="grid" id="grid"></div>
+    <footer>
+      Box descriptions come from your cataloger’s box-level notes; overall condition is summarized from the catalog’s condition fields when available.
+    </footer>
+  </div>
+</main>
+
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image preview">
+  <div class="lbPanel">
+    <div class="lbTop">
+      <div class="meta">
+        <div class="t" id="lbTitle">Preview</div>
+        <div class="s" id="lbSub">—</div>
+      </div>
+      <div class="actions">
+        <a id="lbOpen" href="#" target="_blank" rel="noopener">Open in Drive</a>
+        <button id="lbClose">Close</button>
+      </div>
+    </div>
+    <div class="lbBody">
+      <img id="lbImg" alt="Preview image"/>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = [{"box_index": 1, "images": [{"id": "10B64GtrUh1Q_wcayoeoxYOwihQvqrZpX", "resourcekey": null, "raw": "https://drive.google.com/file/d/10B64GtrUh1Q_wcayoeoxYOwihQvqrZpX/view?usp=drive_link"}, {"id": "1y5YY69cffFzLOBKWcTQKDyL3WKQCA9Zt", "resourcekey": null, "raw": "https://drive.google.com/file/d/1y5YY69cffFzLOBKWcTQKDyL3WKQCA9Zt/view?usp=drive_link"}, {"id": "1SggIqNWlTM6UVs3ddI5IkR5_kE9bncj0", "resourcekey": null, "raw": "https://drive.google.com/file/d/1SggIqNWlTM6UVs3ddI5IkR5_kE9bncj0/view?usp=drive_link"}, {"id": "1NXC1JnOwCMUcG8-LkZ9xPTOc53nS1hFn", "resourcekey": null, "raw": "https://drive.google.com/file/d/1NXC1JnOwCMUcG8-LkZ9xPTOc53nS1hFn/view?usp=drive_link"}], "summary": "This box contains 2 works, Painting, Oil on canvas. Overall condition includes staining / discoloration, edge wear / scuffs / chips, and frame wear."}, {"box_index": 2, "images": [{"id": "1aQwSa2Y-JRsVyb0ZdsjacolSbJX1Bw6o", "resourcekey": null, "raw": "https://drive.google.com/file/d/1aQwSa2Y-JRsVyb0ZdsjacolSbJX1Bw6o/view?usp=drive_link"}, {"id": "1icW_5FEF-tjWUJj25WF7VY-AnlyqDkw3", "resourcekey": null, "raw": "https://drive.google.com/file/d/1icW_5FEF-tjWUJj25WF7VY-AnlyqDkw3/view?usp=drive_link"}, {"id": "1IRbVwLhsi7Iv76JbwOBXOG_7IX27zAYN", "resourcekey": null, "raw": "https://drive.google.com/file/d/1IRbVwLhsi7Iv76JbwOBXOG_7IX27zAYN/view?usp=drive_link"}, {"id": "19r4gNXVxabmsmgwy1xf94wPS-pb1yiKs", "resourcekey": null, "raw": "https://drive.google.com/file/d/19r4gNXVxabmsmgwy1xf94wPS-pb1yiKs/view?usp=drive_link"}, {"id": "1xp8lpRgvQSOdXHpkDzq6IgXkIlscBjWH", "resourcekey": null, "raw": "https://drive.google.com/file/d/1xp8lpRgvQSOdXHpkDzq6IgXkIlscBjWH/view?usp=drive_link"}, {"id": "1L7do9HBb69TzdDEFiDho5dxKnVwhNibq", "resourcekey": null, "raw": "https://drive.google.com/file/d/1L7do9HBb69TzdDEFiDho5dxKnVwhNibq/view?usp=drive_link"}, {"id": "1ris7L2-q61j69ZUza8M9spET3aw9E6DN", "resourcekey": null, "raw": "https://drive.google.com/file/d/1ris7L2-q61j69ZUza8M9spET3aw9E6DN/view?usp=drive_link"}, {"id": "1Rfg6UrGYCqjvVB0utbsnIawdL-l8fVlC", "resourcekey": null, "raw": "https://drive.google.com/file/d/1Rfg6UrGYCqjvVB0utbsnIawdL-l8fVlC/view?usp=drive_link"}, {"id": "1TKQm7bZv2qW4UuuHEPnIvI4ouFMuHCTw", "resourcekey": null, "raw": "https://drive.google.com/file/d/1TKQm7bZv2qW4UuuHEPnIvI4ouFMuHCTw/view?usp=drive_link"}], "summary": "This box contains 8 works, Print, Woodblock. Overall condition includes staining / discoloration, edge wear / scuffs / chips, and tears / holes. Additionally, Portfolio of ~25 works on paper."}, {"box_index": 3, "images": [{"id": "1fRwRuH3sIEXf9emGPz527GIspS6NjOh4", "resourcekey": null, "raw": "https://drive.google.com/file/d/1fRwRuH3sIEXf9emGPz527GIspS6NjOh4/view?usp=drive_link"}, {"id": "1hl4jkcDpDeI46nH6QkyKuKM75rRCPkIp", "resourcekey": null, "raw": "https://drive.google.com/file/d/1hl4jkcDpDeI46nH6QkyKuKM75rRCPkIp/view?usp=drive_link"}, {"id": "1Dx9eBmRmc1CYn4979itgwb3W8BY9a0Mz", "resourcekey": null, "raw": "https://drive.google.com/file/d/1Dx9eBmRmc1CYn4979itgwb3W8BY9a0Mz/view?usp=drive_link"}, {"id": "1z9DjWkH49psCsx1hhlVEXy-q5V4MF4vy", "resourcekey": null, "raw": "https://drive.google.com/file/d/1z9DjWkH49psCsx1hhlVEXy-q5V4MF4vy/view?usp=drive_link"}], "summary": "This box contains 2 works, Painting, Oil on paper mounted on panel and Oil on canvas. Overall condition includes frame wear, edge wear / scuffs / chips, and staining / discoloration."}, {"box_index": 4, "images": [], "summary": "Three portraits of kids; one scroll in Hebrew from an unknown artist; a wooden stick with a horse's head on top."}, {"box_index": 5, "images": [], "summary": "Four photographs by Joseph Firschein; one drawing and one dedicated drawing by William Firschein; one print by Beva Farmer."}, {"box_index": 6, "images": [{"id": "1oxdSjR0UEPqFzcCi973AOw2HLtSbdXJH", "resourcekey": null, "raw": "https://drive.google.com/file/d/1oxdSjR0UEPqFzcCi973AOw2HLtSbdXJH/view?usp=drive_link"}, {"id": "1apH5oPhdMH87QIRvumiaWIEE6UISCe24", "resourcekey": null, "raw": "https://drive.google.com/file/d/1apH5oPhdMH87QIRvumiaWIEE6UISCe24/view?usp=drive_link"}, {"id": "1APARSS0OOPS1wS3-7KgBnACzCoYA3G5h", "resourcekey": null, "raw": "https://drive.google.com/file/d/1APARSS0OOPS1wS3-7KgBnACzCoYA3G5h/view?usp=drive_link"}, {"id": "1iSMxPeLUhvpYZyJvz4flqCx8gJkklseF", "resourcekey": null, "raw": "https://drive.google.com/file/d/1iSMxPeLUhvpYZyJvz4flqCx8gJkklseF/view?usp=drive_link"}], "summary": "This box contains 2 works, Painting and Print, Oil on canvas and Print on paper (type unknown). Overall condition includes frame wear, foxing / age spotting, and labels / inscriptions. Additionally, One print (heavily foxed) by William Firschein; one photograph (unknown artist)."}, {"box_index": 7, "images": [], "summary": "One print by Liette Chartrand; one print edition of \"La muerta;\" one print of \"Sabbath Blessing\" (unknown artist)."}, {"box_index": 8, "images": [{"id": "1mvDQwuBfo--H85OhA61ysIZH4ndZhxed", "resourcekey": null, "raw": "https://drive.google.com/file/d/1mvDQwuBfo--H85OhA61ysIZH4ndZhxed/view?usp=drive_link"}, {"id": "1dE_f5zg4YL9dBkK_YUGsf0Lt8Ho1UKeP", "resourcekey": null, "raw": "https://drive.google.com/file/d/1dE_f5zg4YL9dBkK_YUGsf0Lt8Ho1UKeP/view?usp=drive_link"}, {"id": "138A9hN8EGkU32Pqs6yv5WqkLEKH7NPkT", "resourcekey": null, "raw": "https://drive.google.com/file/d/138A9hN8EGkU32Pqs6yv5WqkLEKH7NPkT/view?usp=drive_link"}, {"id": "1ZspRUO0E_WKqsqWeliHMHZmSYWnZNZX8", "resourcekey": null, "raw": "https://drive.google.com/file/d/1ZspRUO0E_WKqsqWeliHMHZmSYWnZNZX8/view?usp=drive_link"}], "summary": "This box contains 2 works, Painting and Print, Oil on canvas and Woodblock. Overall condition includes edge wear / scuffs / chips, frame wear, and foxing / age spotting. Additionally, Degree/diploma for Oscar Firschein."}, {"box_index": 9, "images": [{"id": "1tlPX0TDUQD96BbTFNou_it3olKdPmZwM", "resourcekey": null, "raw": "https://drive.google.com/file/d/1tlPX0TDUQD96BbTFNou_it3olKdPmZwM/view?usp=drive_link"}, {"id": "11zyp_MmfNcnaTfm00HX-80xRi_8x_ScN", "resourcekey": null, "raw": "https://drive.google.com/file/d/11zyp_MmfNcnaTfm00HX-80xRi_8x_ScN/view?usp=drive_link"}, {"id": "1Ag-E9dPVsADsIp9ZcUBW4t0K5MQNw8PT", "resourcekey": null, "raw": "https://drive.google.com/file/d/1Ag-E9dPVsADsIp9ZcUBW4t0K5MQNw8PT/view?usp=drive_link"}, {"id": "1Qmb4WlA2C5x_Becisd0yunO5aRVnAgwB", "resourcekey": null, "raw": "https://drive.google.com/file/d/1Qmb4WlA2C5x_Becisd0yunO5aRVnAgwB/view?usp=drive_link"}], "summary": "This box contains 2 works, Painting, Oil on canvas. Overall condition includes frame wear, edge wear / scuffs / chips, and staining / discoloration."}, {"box_index": 10, "images": [{"id": "16VHX3sc6WfgG4JfdWCZ91GW6TkmT8fGg", "resourcekey": null, "raw": "https://drive.google.com/file/d/16VHX3sc6WfgG4JfdWCZ91GW6TkmT8fGg/view?usp=drive_link"}, {"id": "1JapKIpj0su_iQ9SNkUJoKRaU5Xt44m2g", "resourcekey": null, "raw": "https://drive.google.com/file/d/1JapKIpj0su_iQ9SNkUJoKRaU5Xt44m2g/view?usp=drive_link"}, {"id": "1aMEJroQEBpm_RbxgeTN0ddG4J9E9AmiQ", "resourcekey": null, "raw": "https://drive.google.com/file/d/1aMEJroQEBpm_RbxgeTN0ddG4J9E9AmiQ/view?usp=drive_link"}, {"id": "1HVIDFkYp17Ai-Bi7pugBqrrUtGjH_1x5", "resourcekey": null, "raw": "https://drive.google.com/file/d/1HVIDFkYp17Ai-Bi7pugBqrrUtGjH_1x5/view?usp=drive_link"}, {"id": "1drgI-9fSF7uQVCvaIf6FnZJkB6Rukkjh", "resourcekey": null, "raw": "https://drive.google.com/file/d/1drgI-9fSF7uQVCvaIf6FnZJkB6Rukkjh/view?usp=drive_link"}, {"id": "1iQkEbb6ZrQmcrecW77bKEZwFsTdVv75V", "resourcekey": null, "raw": "https://drive.google.com/file/d/1iQkEbb6ZrQmcrecW77bKEZwFsTdVv75V/view?usp=drive_link"}], "summary": "This box contains 3 works, Painting and Print, Pen and watercolor on paper and Oil on paper. Overall condition includes edge wear / scuffs / chips, frame wear, and staining / discoloration. Additionally, Two woodblocks; two degrees/diplomas; one mining stock certificate; one drawing and one dedicated drawing by William Firschein; loose photographs, slides, and posters; one print edition of \"La muerta;\" unknown script in Hebrew; copies of William Firschein's artist biography."}, {"box_index": 11, "images": [{"id": "1gx-oVU2GKDJMeSnuQnNuMBKOH7N8b_vD", "resourcekey": null, "raw": "https://drive.google.com/file/d/1gx-oVU2GKDJMeSnuQnNuMBKOH7N8b_vD/view?usp=drive_link"}, {"id": "13cDz0JzMMYnd-9k6rFWWsHn2WUiemgM7", "resourcekey": null, "raw": "https://drive.google.com/file/d/13cDz0JzMMYnd-9k6rFWWsHn2WUiemgM7/view?usp=drive_link"}, {"id": "15A9seuguo-9uQwejvTJ32VsB15YJLnKg", "resourcekey": null, "raw": "https://drive.google.com/file/d/15A9seuguo-9uQwejvTJ32VsB15YJLnKg/view?usp=drive_link"}, {"id": "1U2qqSck0IPZH26a5rIycWBrFDukrDHmW", "resourcekey": null, "raw": "https://drive.google.com/file/d/1U2qqSck0IPZH26a5rIycWBrFDukrDHmW/view?usp=drive_link"}, {"id": "1LW_pRZbDbU1wz3zRo7wkKUiVF4L3Dmr5", "resourcekey": null, "raw": "https://drive.google.com/file/d/1LW_pRZbDbU1wz3zRo7wkKUiVF4L3Dmr5/view?usp=drive_link"}, {"id": "1suC2bc7peBk_GpYp6rpraGDWDp5wFR-q", "resourcekey": null, "raw": "https://drive.google.com/file/d/1suC2bc7peBk_GpYp6rpraGDWDp5wFR-q/view?usp=drive_link"}], "summary": "This box contains 3 works, Painting and Print, Graphite and watercolor on paper and Woodcut. Overall condition includes frame wear, foxing / age spotting, and staining / discoloration."}, {"box_index": 12, "images": [{"id": "1neRCrIt4ibxlPDO7QYIwX1fF816_pBcK", "resourcekey": null, "raw": "https://drive.google.com/file/d/1neRCrIt4ibxlPDO7QYIwX1fF816_pBcK/view?usp=drive_link"}, {"id": "1ChVYSIlKdbMXqLjPf2FBjnr4j_cekYQ-", "resourcekey": null, "raw": "https://drive.google.com/file/d/1ChVYSIlKdbMXqLjPf2FBjnr4j_cekYQ-/view?usp=drive_link"}, {"id": "10hcs4rofWoa8CP-aGhFd52Z95bUaijJv", "resourcekey": null, "raw": "https://drive.google.com/file/d/10hcs4rofWoa8CP-aGhFd52Z95bUaijJv/view?usp=drive_link"}, {"id": "1vHzVp3pbRGyj9TETFGk_itsYaBaVRc4m", "resourcekey": null, "raw": "https://drive.google.com/file/d/1vHzVp3pbRGyj9TETFGk_itsYaBaVRc4m/view?usp=drive_link"}], "summary": "This box contains 2 works, Print, Woodcut. Overall condition includes staining / discoloration, labels / inscriptions, and frame wear."}, {"box_index": 13, "images": [{"id": "1MjBQCmvibS-V0SnJ0uziWoeX7Xl0doJe", "resourcekey": null, "raw": "https://drive.google.com/file/d/1MjBQCmvibS-V0SnJ0uziWoeX7Xl0doJe/view?usp=drive_link"}, {"id": "1Mc4h5kR1v3WT4o21NTrpnKb6u4ZhyzGK", "resourcekey": null, "raw": "https://drive.google.com/file/d/1Mc4h5kR1v3WT4o21NTrpnKb6u4ZhyzGK/view?usp=drive_link"}, {"id": "1p_d5G3zGh4InX6iM9JG0c0K5G-Ksl7jS", "resourcekey": null, "raw": "https://drive.google.com/file/d/1p_d5G3zGh4InX6iM9JG0c0K5G-Ksl7jS/view?usp=drive_link"}, {"id": "1FP2K1-sjXPvMr03eIKqjIrTAW6LxeHyj", "resourcekey": null, "raw": "https://drive.google.com/file/d/1FP2K1-sjXPvMr03eIKqjIrTAW6LxeHyj/view?usp=drive_link"}, {"id": "19eASE4RrsYXq-n8sFkMtdmdqbvX31Zeg", "resourcekey": null, "raw": "https://drive.google.com/file/d/19eASE4RrsYXq-n8sFkMtdmdqbvX31Zeg/view?usp=drive_link"}, {"id": "17Fr0JgsTWBM5ScNNnm6aV2CURuiM2b2O", "resourcekey": null, "raw": "https://drive.google.com/file/d/17Fr0JgsTWBM5ScNNnm6aV2CURuiM2b2O/view?usp=drive_link"}], "summary": "This box contains 3 works, Painting and Print, Oil on canvas and Watercolor on paper. Overall condition includes staining / discoloration, frame wear, and edge wear / scuffs / chips."}, {"box_index": 14, "images": [{"id": "1yjx7-SbMQQ0-KGwOu3ullegackY95mmk", "resourcekey": null, "raw": "https://drive.google.com/file/d/1yjx7-SbMQQ0-KGwOu3ullegackY95mmk/view?usp=drive_link"}, {"id": "1yM7cNF6NGrFqnS5io82nBZ0UfwpDdeuH", "resourcekey": null, "raw": "https://drive.google.com/file/d/1yM7cNF6NGrFqnS5io82nBZ0UfwpDdeuH/view?usp=drive_link"}, {"id": "13Vaampz6mj2kcYbdr1uOiK4iaN7Ki5C0", "resourcekey": null, "raw": "https://drive.google.com/file/d/13Vaampz6mj2kcYbdr1uOiK4iaN7Ki5C0/view?usp=drive_link"}, {"id": "11bpCQ5BkwMomavHnYTVYTSGOkczsdFXF", "resourcekey": null, "raw": "https://drive.google.com/file/d/11bpCQ5BkwMomavHnYTVYTSGOkczsdFXF/view?usp=drive_link"}, {"id": "1_DSB1PAhi8gQHDRQl0j95F4D79yoORLt", "resourcekey": null, "raw": "https://drive.google.com/file/d/1_DSB1PAhi8gQHDRQl0j95F4D79yoORLt/view?usp=drive_link"}, {"id": "1XVA0naIT04ucVODqbaLgqmCWb7tSy6BM", "resourcekey": null, "raw": "https://drive.google.com/file/d/1XVA0naIT04ucVODqbaLgqmCWb7tSy6BM/view?usp=drive_link"}], "summary": "This box contains 3 works, Painting and Print, Oil on canvas and Photographic medium. Overall condition includes staining / discoloration, frame wear, and foxing / age spotting."}, {"box_index": 15, "images": [{"id": "1rRSM7H9c_NpJgv0cekjqFnisq8kKQi1b", "resourcekey": null, "raw": "https://drive.google.com/file/d/1rRSM7H9c_NpJgv0cekjqFnisq8kKQi1b/view?usp=drive_link"}, {"id": "17zolKI-fWct6zS-nz0WhX41oMXqRbKuM", "resourcekey": null, "raw": "https://drive.google.com/file/d/17zolKI-fWct6zS-nz0WhX41oMXqRbKuM/view?usp=drive_link"}, {"id": "1Iqjy0RMffeGNOemBmtG17Z2y2k_GMFQT", "resourcekey": null, "raw": "https://drive.google.com/file/d/1Iqjy0RMffeGNOemBmtG17Z2y2k_GMFQT/view?usp=drive_link"}, {"id": "1keD2rjo0LMtQMCUFtsymSB9wQ_CYCLZv", "resourcekey": null, "raw": "https://drive.google.com/file/d/1keD2rjo0LMtQMCUFtsymSB9wQ_CYCLZv/view?usp=drive_link"}], "summary": "This box contains 2 works, Painting, Oil on canvas and Oil on panel. Overall condition includes staining / discoloration, frame wear, and edge wear / scuffs / chips. Additionally, One drawing by Ben Firschein; one poster from the Israel Museum; portfolio of ~25 works on paper."}, {"box_index": 16, "images": [{"id": "1k8E4iwxtD_JHwYAoJHgJxvFqbSX3QeIk", "resourcekey": null, "raw": "https://drive.google.com/file/d/1k8E4iwxtD_JHwYAoJHgJxvFqbSX3QeIk/view?usp=drive_link"}, {"id": "1VoMYV86IxcMxLrKR1nKI8hvPRsqHVwbz", "resourcekey": null, "raw": "https://drive.google.com/file/d/1VoMYV86IxcMxLrKR1nKI8hvPRsqHVwbz/view?usp=drive_link"}], "summary": "This box contains 1 work, Print, Woodcut. Overall condition includes frame wear, foxing / age spotting, and labels / inscriptions. Additionally, Portfolio of ~25 works on paper; one drawing by \"Sandinsky\" from 1976; one artist's proof of an early print by William Firschein; copies of William Firschein's artist biography."}, {"box_index": 17, "images": [], "summary": "Portfolio of ~43 works on paper."}, {"box_index": 18, "images": [{"id": "1KBkMG4YuGXMNJCwpZUmmbdfM0AiFPpRG", "resourcekey": null, "raw": "https://drive.google.com/file/d/1KBkMG4YuGXMNJCwpZUmmbdfM0AiFPpRG/view?usp=drive_link"}, {"id": "1yaKoEesGJDxS5kg_OAB2ON-9QH2UIAmk", "resourcekey": null, "raw": "https://drive.google.com/file/d/1yaKoEesGJDxS5kg_OAB2ON-9QH2UIAmk/view?usp=drive_link"}, {"id": "1DKzxUjXT2KURWWrrvFtxtJUuCnX59oDv", "resourcekey": null, "raw": "https://drive.google.com/file/d/1DKzxUjXT2KURWWrrvFtxtJUuCnX59oDv/view?usp=drive_link"}, {"id": "1SyCtTq-PWsIBVuwr-2pAEeCJOX1THxFa", "resourcekey": null, "raw": "https://drive.google.com/file/d/1SyCtTq-PWsIBVuwr-2pAEeCJOX1THxFa/view?usp=drive_link"}, {"id": "1wu6Dcv-564NlryeKx6UVxwZeR8Q7hmac", "resourcekey": null, "raw": "https://drive.google.com/file/d/1wu6Dcv-564NlryeKx6UVxwZeR8Q7hmac/view?usp=drive_link"}, {"id": "1idzdG06o06liQG5Sb0IadCuln6QngYHm", "resourcekey": null, "raw": "https://drive.google.com/file/d/1idzdG06o06liQG5Sb0IadCuln6QngYHm/view?usp=drive_link"}, {"id": "1VwgKII20suTUS1IQ-LiGYb979_-nBT-c", "resourcekey": null, "raw": "https://drive.google.com/file/d/1VwgKII20suTUS1IQ-LiGYb979_-nBT-c/view?usp=drive_link"}, {"id": "1Czm68CQNsiKRdvIgnHKfIvBrBPzv4Vgc", "resourcekey": null, "raw": "https://drive.google.com/file/d/1Czm68CQNsiKRdvIgnHKfIvBrBPzv4Vgc/view?usp=drive_link"}], "summary": "This box contains 4 works, Print, Woodblock. Overall condition includes staining / discoloration, edge wear / scuffs / chips, and frame wear."}, {"box_index": 19, "images": [{"id": "1p9ExcpfWkDODgwU-hkiqbT2DxzAPiz37", "resourcekey": null, "raw": "https://drive.google.com/file/d/1p9ExcpfWkDODgwU-hkiqbT2DxzAPiz37/view?usp=drive_link"}, {"id": "1UByPb1N7zPeBK_PwicSnoolDxNOYfJ-t", "resourcekey": null, "raw": "https://drive.google.com/file/d/1UByPb1N7zPeBK_PwicSnoolDxNOYfJ-t/view?usp=drive_link"}, {"id": "1ICmCQUxY8UHyuCWdfvZNMiTfaYPKnxPL", "resourcekey": null, "raw": "https://drive.google.com/file/d/1ICmCQUxY8UHyuCWdfvZNMiTfaYPKnxPL/view?usp=drive_link"}, {"id": "1mS9y8kIFmW4UHfchJVh4isgk0m7Rgedc", "resourcekey": null, "raw": "https://drive.google.com/file/d/1mS9y8kIFmW4UHfchJVh4isgk0m7Rgedc/view?usp=drive_link"}], "summary": "This box contains 2 works, Print and Painting, Print on paper (type unknown) and Oil on canvas. Overall condition includes staining / discoloration, frame wear, and foxing / age spotting."}, {"box_index": 20, "images": [{"id": "1uW61rOlXea79ux-4-gzeqWh04i8sszdO", "resourcekey": null, "raw": "https://drive.google.com/file/d/1uW61rOlXea79ux-4-gzeqWh04i8sszdO/view?usp=drive_link"}, {"id": "1B_OlhQCbf9xhPjdUYPmfB6AAGLSVAcB1", "resourcekey": null, "raw": "https://drive.google.com/file/d/1B_OlhQCbf9xhPjdUYPmfB6AAGLSVAcB1/view?usp=drive_link"}, {"id": "1mt8Tp55Q1rKacJSUZi4jqn8EMKAtI37b", "resourcekey": null, "raw": "https://drive.google.com/file/d/1mt8Tp55Q1rKacJSUZi4jqn8EMKAtI37b/view?usp=drive_link"}, {"id": "1FDsbOXsVmZ95VXrOGL9UyVbTjWJORYBq", "resourcekey": null, "raw": "https://drive.google.com/file/d/1FDsbOXsVmZ95VXrOGL9UyVbTjWJORYBq/view?usp=drive_link"}], "summary": "This box contains 2 works, Painting, Oil on canvas. Overall condition includes frame wear, staining / discoloration, and edge wear / scuffs / chips."}, {"box_index": 21, "images": [], "summary": "Six woodblocks."}, {"box_index": 22, "images": [{"id": "1p-auXzVQzVsEpFG28-lnTIFrOqkdI_e4", "resourcekey": null, "raw": "https://drive.google.com/file/d/1p-auXzVQzVsEpFG28-lnTIFrOqkdI_e4/view?usp=drive_link"}, {"id": "11PrgjUSrvFyG1kcV_AQsibx2_G55-ywQ", "resourcekey": null, "raw": "https://drive.google.com/file/d/11PrgjUSrvFyG1kcV_AQsibx2_G55-ywQ/view?usp=drive_link"}, {"id": "1x-G79u_bOWTwSco1d4j963yWmjr72sOA", "resourcekey": null, "raw": "https://drive.google.com/file/d/1x-G79u_bOWTwSco1d4j963yWmjr72sOA/view?usp=drive_link"}, {"id": "18k25TIjgnY_HoT83khb8Q0G0kGNqWKkd", "resourcekey": null, "raw": "https://drive.google.com/file/d/18k25TIjgnY_HoT83khb8Q0G0kGNqWKkd/view?usp=drive_link"}], "summary": "This box contains 2 works, Painting, Oil on canvas and Watercolor on paper. Overall condition includes staining / discoloration, frame wear, and foxing / age spotting."}, {"box_index": 23, "images": [{"id": "1RI0t4qP-bfP3i_nyPR88OHG37tjOUYou", "resourcekey": null, "raw": "https://drive.google.com/file/d/1RI0t4qP-bfP3i_nyPR88OHG37tjOUYou/view?usp=drive_link"}, {"id": "1fw-ATpT_sfxjkmsToODSdFOtrf8DlxdA", "resourcekey": null, "raw": "https://drive.google.com/file/d/1fw-ATpT_sfxjkmsToODSdFOtrf8DlxdA/view?usp=drive_link"}, {"id": "15v2QKoW16W8nDS1cyUN10z61Qk8Iw-Jv", "resourcekey": null, "raw": "https://drive.google.com/file/d/15v2QKoW16W8nDS1cyUN10z61Qk8Iw-Jv/view?usp=drive_link"}, {"id": "1aIeU-xnDeIks1HG8dBW2KNMlKHdHAI8s", "resourcekey": null, "raw": "https://drive.google.com/file/d/1aIeU-xnDeIks1HG8dBW2KNMlKHdHAI8s/view?usp=drive_link"}], "summary": "This box contains 2 works, Painting, Oil on canvas. Overall condition includes frame wear, staining / discoloration, and edge wear / scuffs / chips."}, {"box_index": 24, "images": [{"id": "1bzL3hPYUj_-vPGAKd9elhMvyebMOe_km", "resourcekey": null, "raw": "https://drive.google.com/file/d/1bzL3hPYUj_-vPGAKd9elhMvyebMOe_km/view?usp=drive_link"}, {"id": "152tWJ7jv6NYoyZe5JGarObFdAv58ZFip", "resourcekey": null, "raw": "https://drive.google.com/file/d/152tWJ7jv6NYoyZe5JGarObFdAv58ZFip/view?usp=drive_link"}, {"id": "1h3OHbx2EK_LTCR1NNV1gqPF44qqLIfIS", "resourcekey": null, "raw": "https://drive.google.com/file/d/1h3OHbx2EK_LTCR1NNV1gqPF44qqLIfIS/view?usp=drive_link"}, {"id": "1aufk2APpXxcrVMIrmngA-T9hZPJME5DL", "resourcekey": null, "raw": "https://drive.google.com/file/d/1aufk2APpXxcrVMIrmngA-T9hZPJME5DL/view?usp=drive_link"}], "summary": "This box contains 2 works, Painting, Oil on canvas. Overall condition includes staining / discoloration, frame wear, and foxing / age spotting."}, {"box_index": 25, "images": [{"id": "1wwVJZHM5nRfEqJj7TjlKOd92bk0XFgts", "resourcekey": null, "raw": "https://drive.google.com/file/d/1wwVJZHM5nRfEqJj7TjlKOd92bk0XFgts/view?usp=drive_link"}, {"id": "1GRMpMF74R206oXrVyfmn8srhUJsrhMiq", "resourcekey": null, "raw": "https://drive.google.com/file/d/1GRMpMF74R206oXrVyfmn8srhUJsrhMiq/view?usp=drive_link"}], "summary": "This box contains 1 work, Painting, Oil on canvas. Overall condition includes frame wear, soiling / dust, and edge wear / scuffs / chips."}];
+
+function driveViewUrl(item) {
+  const base = `https://drive.google.com/file/d/${item.id}/view`;
+  return item.resourcekey ? `${base}?resourcekey=${item.resourcekey}` : base;
+}
+function thumbUrl(item) {
+  const base = `https://drive.google.com/thumbnail?id=${item.id}&sz=w800`;
+  return item.resourcekey ? `${base}&resourcekey=${item.resourcekey}` : base;
+}
+function fullUrl(item) {
+  const base = `https://drive.google.com/uc?export=view&id=${item.id}`;
+  return item.resourcekey ? `${base}&resourcekey=${item.resourcekey}` : base;
+}
+
+const state = { query:"" };
+const elGrid = document.getElementById("grid");
+const elSummary = document.getElementById("summary");
+const elQ = document.getElementById("q");
+
+function normalize(s) { return (s||"").toString().toLowerCase().trim(); }
+function searchableText(box) { return normalize(`box ${box.box_index} ${box.summary}`); }
+
+function passesFilter(box) {
+  const hasImgs = (box.images||[]).length>0;  const q = normalize(state.query);
+  if (!q) return true;
+  const tokens = q.split(/\s+/).filter(Boolean);
+  const hay = searchableText(box);
+  return tokens.every(t => hay.includes(t));
+}
+
+function cardHtml(box) {
+  const imgs = box.images || [];
+  const thumbs = imgs.map((item, idx) => {
+    const t = thumbUrl(item);
+    const safeItem = JSON.stringify(item).replace(/</g,'\u003c');
+    return `
+      <div class="thumb">
+        <img loading="lazy" src="${t}" alt="Box ${box.box_index} image ${idx+1}"
+             onerror="this.style.display='none'; this.parentElement.querySelector('.fallback').style.display='block';"/>
+        <div class="fallback" style="display:none;">Thumbnail unavailable</div>
+        <button onclick='openLightbox(${box.box_index}, ${idx+1}, ${safeItem}); event.stopPropagation();'>🔍</button>
+      </div>`;
+  }).join("");
+
+  return `
+    <div class="card">
+      <div class="cardTop">
+        <div style="display:flex; gap:8px; align-items:center;">
+          <div style="font-weight:900;">Box ${box.box_index}</div></div>
+        <div style="display:flex; gap:8px; align-items:center;">
+          <span class="badge">${imgs.length} image${imgs.length===1?"":"s"}</span>
+        </div>
+      </div>
+      <div class="body">
+        <div class="boxSummary">${box.summary}</div>
+        ${imgs.length ? `<div class="thumbs">${thumbs}</div>` : `<div class="boxSummary" style="color:var(--muted); margin-top:10px;">No photos linked for this box.</div>`}
+      </div>
+    </div>`;
+}
+
+function render() {
+  const filtered = DATA.filter(passesFilter);
+  const total = DATA.length;
+  const images = DATA.reduce((a,b)=>a+(b.images||[]).length,0);
+  elSummary.innerHTML = `<div>Showing <b>${filtered.length}</b> of <b>${total}</b> boxes.</div><div>${images} images </div>`;
+  elGrid.innerHTML = filtered.map(cardHtml).join("");
+}
+
+elQ.addEventListener("input", (e) => { state.query = e.target.value; render(); });
+
+// Lightbox
+const lb = document.getElementById("lightbox");
+const lbImg = document.getElementById("lbImg");
+const lbTitle = document.getElementById("lbTitle");
+const lbSub = document.getElementById("lbSub");
+const lbOpen = document.getElementById("lbOpen");
+const lbClose = document.getElementById("lbClose");
+
+window.openLightbox = function(boxIndex, itemIndex, item) {
+  const f = fullUrl(item);
+  const v = driveViewUrl(item);
+  lbTitle.textContent = `Box ${boxIndex} • Image ${itemIndex}`;
+  lbSub.textContent = v;
+  lbImg.src = f;
+  lbOpen.href = v;
+  lb.classList.add("open");
+}
+function closeLightbox() { lb.classList.remove("open"); lbImg.src=""; }
+lbClose.addEventListener("click", closeLightbox);
+lb.addEventListener("click", (e) => { if (e.target === lb) closeLightbox(); });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeLightbox(); });
+
+render();
+</script>
+</body>
+</html>
